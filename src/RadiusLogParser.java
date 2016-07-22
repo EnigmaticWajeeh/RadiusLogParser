@@ -37,16 +37,34 @@ public class RadiusLogParser {
 		
 		
 		
+		
+		
+		
 		// Initial Setup for parser
 		
 		ArrayList<String> inputArguments=new ArrayList<String>();
 		
-		for(int i=0; i < args.length; i++){
-			inputArguments.add(args[i]);
-		}
-	
-		System.out.println("Parsing the file given in first argument");
 		
+		if(args.length<4){
+			System.out.println("make sure arguments are <radius log filename>" + 
+		" <seed ip address> <keyspace name> <tablename>");
+			System.exit(1);
+		} else{
+			
+			// file name
+			inputArguments.add(args[0]);
+			
+			//ip address
+			inputArguments.add(args[1]);
+
+			//keyspace name
+			inputArguments.add(args[2]);
+
+			//table name
+			inputArguments.add(args[3]);
+		}
+		
+		System.out.println("Parsing the file given in first argument");
 		
 		BufferedReader br=null;
 		String currentLine;
@@ -62,11 +80,17 @@ public class RadiusLogParser {
 		
 //		CONNECTION PROPERTIES FOR APACHE CASSANDRA
 		
-			String serverIp = "127.0.0.1";
-
-		    String keyspace = "log";
-		    String tableName="radius";
+//			String serverIp = "127.0.0.1";
+//
+//		    String keyspace = "log";
+//		    String tableName="radius";
 		    
+			String serverIp = inputArguments.get(1);
+
+		    String keyspace = inputArguments.get(2);
+		    String tableName= inputArguments.get(3);
+		    
+		    		    
 		    Cluster cluster = Cluster.builder()
 		            .addContactPoints(serverIp)
 		            .build();
